@@ -1,0 +1,1 @@
+this repository is for CSE244-Multicore-programming assignments
