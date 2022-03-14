@@ -4,6 +4,9 @@
 
 #define DECRYPT_ALGORITHM(a,b,c) (c += a*50 + b)
  
+//#define METHOD1
+#define METHOD2
+
 uchar* readData(char* _fileName, int _dataSize);
 bool writeData(char* _fileName, int _dataSize, uchar* _data);
 
@@ -56,9 +59,9 @@ int main(int argc, char** argv)
 	
 
 	/* Write your code from here! */
-
+#ifdef METHOD1	
+	// 2-1) dividing task method
 	int numThread = 4;
-	
 	#pragma omp parallel num_threads(numThread)
 	{
 		int start = dataSize / numThread * omp_get_thread_num();
@@ -67,7 +70,19 @@ int main(int argc, char** argv)
 			DECRYPT_ALGORITHM(A[i], B[i], parallelC[i]);
 		}
 	}
-	
+#endif
+
+#ifdef METHOD2
+	// 2-2) round-robin method
+	int numThread = 4;
+	#pragma omp parallel num_threads(numThread)
+	{
+		int tID = omp_get_thread_num();
+		for (int i = tID; i < dataSize; i += numThread) {
+			DECRYPT_ALGORITHM(A[i], B[i], parallelC[i]);
+		}
+	}
+#endif
 
 	// **************************************************************
 	timer.offTimer(1);
