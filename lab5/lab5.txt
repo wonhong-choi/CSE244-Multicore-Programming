@@ -1,0 +1,4 @@
+lab5 summary
+
+lab5-1 : Matrix Multiplication w/o shared memory(only using global memory of CUDA)
+lab5-2 : Matrix Multiplication w shared memory
